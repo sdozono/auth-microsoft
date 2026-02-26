@@ -35,28 +35,14 @@ class Module extends \humhub\components\Module
 
     public function init() {
         parent::init();
-
-        $config = DynamicConfig::load();
         $rule = [
             'class' => 'yii\web\UrlRule',
             //'pattern' => '/user/auth/microsoft',
-            'pattern' => '/user/auth/external?authclient=microsoft',
+            'pattern' => '/user/auth/external?authclient=microsoft&loginRememberMe=true',
             'route' => '/user/auth/external',
             'defaults' => [
                 'authclient' => 'microsoft'
             ]
         ];
-
-        if(!array_key_exists('urlManager', $config['components']) || !array_key_exists('rules', $config['components']['urlManager']) ||!in_array($rule, $config['components']['urlManager']['rules'])) {
-            DynamicConfig::merge(['components' => [
-                'urlManager' => [
-                    'showScriptName' => false,
-                    'enablePrettyUrl' => true,
-                    'rules' => [
-                        $rule
-                    ]
-                ],
-            ]]);
-        }
     }
 }
